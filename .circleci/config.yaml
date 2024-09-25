@@ -1,1 +1,49 @@
-# Todo
+version: 2.1
+
+jobs:
+  server-build-and-test:
+    docker:
+      - image: cimg/node:20.14.0
+      - image: postgres:16.1
+        environment:
+          - POSTGRES_USER=example
+          - POSTGRES_PASSWORD=example
+          - POSTGRES_DB=example_test
+    steps:
+      - checkout
+
+      - run:
+          name: Build
+          command: |
+            cd server
+            pnpm i --frozen-lockfile
+            pnpm run build
+
+      - run:
+          name: Test
+          command: |
+            cd server
+            pnpm run test:ci
+
+  client-build-and-test:
+    docker:
+      - image: node:20.14.0
+    steps:
+      - checkout
+      - run:
+          name: Enable corepack
+          working_directory: client
+          command: |
+            corepack enable
+            corepack prepare pnpm@latest-9 --activate
+            pnpm config set store-dir ~/project/client/.pnpm-store
+      
+      - run:
+          name: Install
+          working_directory: client
+          command: pnpm i --frozen-lockfile
+
+      - run:
+          name: Build
+          working_directory: client
+          command: pnpm run build
