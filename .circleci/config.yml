@@ -47,3 +47,9 @@ jobs:
           name: Build
           working_directory: client
           command: pnpm run build
+
+workflows:
+  build_and_test:
+    jobs:
+      - server-build-and-test
+      - client-build-and-test
