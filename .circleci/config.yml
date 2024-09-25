@@ -23,6 +23,7 @@ jobs:
       - run:
           name: Test
           command: |
+            echo $NODE_ENV
             cd server
             pnpm run test:ci
 
