@@ -1,0 +1,29 @@
+services:
+  
+  # Database (Postgres, on port 5432)
+  postgres:
+    image: postgres:16.1
+    container_name: example-postgres
+    ports:
+      - 127.0.0.1:5432:5432
+    environment:
+      - POSTGRES_USER=example
+      - POSTGRES_PASSWORD=example
+      - POSTGRES_DB=example
+    volumes:
+      - ./ops/local/postgres/:/docker-entrypoint-initdb.d/
+    networks:
+      - example-local
+
+  # Cache (Redis, on port 5379)
+  redis:
+    image: redis:7.2-alpine
+    container_name: example-redis
+    ports:
+      - 127.0.0.1:6379:6379
+    networks:
+      - example-local
+
+networks:
+  example-local:
+    name: example-local
