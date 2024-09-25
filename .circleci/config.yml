@@ -4,6 +4,7 @@ jobs:
   server-build-and-test:
     docker:
       - image: cimg/node:20.14.0
+      - image: redis:7.2-alpine
       - image: postgres:16.1
         environment:
           - POSTGRES_USER=example
@@ -25,7 +26,7 @@ jobs:
             cd server
             pnpm run test:ci
 
-  client-build-and-test:
+  client-build:
     docker:
       - image: node:20.14.0
     steps:
@@ -52,4 +53,4 @@ workflows:
   build_and_test:
     jobs:
       - server-build-and-test
-      - client-build-and-test
+      - client-build
