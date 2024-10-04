@@ -22,13 +22,18 @@ An example repository for our workshop in 2024.
 
 ```bash
 # Start infrastructure
+> docker compose up -d
+# Alternatively (with a dash -)
 > docker-compose up -d
 
 # Start the backend
 > cd server
+> pnpm i
 > pnpm run start:dev
 
+#open a new tab/window
 # Start the client
 > cd ../client
+> pnpm i
 > pnpm run dev
 ```
